@@ -1,0 +1,69 @@
+﻿<script src="~/Scripts/mustache.js/mustache.min.js"></script>
+<main>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <button class="btn btn-secondary" type="submit" onclick="UserAction()">Get the time</button>
+            </div>
+        <div class="col-md-9">
+            @Html.DropDownList("SelectedTimeZone", new SelectList((System.Collections.IEnumerable)ViewData["TimeZones"]), "Select Time Zone", new { @class = "form-control" })
+        </div>
+    </div>
+</main>
+    <div class="table-wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <table id="mytable" class="table" style="margin-top: 5px; overflow-x:auto;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Time</th>
+                            <th>ClientIp</th>
+                            <th>UtcTime</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function UserAction() {
+        var xhttp = new XMLHttpRequest();
+        var timeZone = document.querySelector("select");
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                loadTable();
+            }
+        };
+        xhttp.open("GET", "http://localhost:60391/api/currenttime/" + timeZone.value, true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        loadTable();
+
+    });
+
+    function loadTable() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.responseType = "json";
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.response.reverse());
+                var output = Mustache.render("{{#.}}<tr><td>{{currentTimeQueryId}}</td><td nowrap>{{time}}</td><td>{{clientIp}}</td><td nowrap>{{utcTime}}</td></tr>{{/.}}", this.response.reverse());
+                document.querySelector("tbody").innerHTML = output;
+            }
+        };
+        xhttp.open("GET", "http://localhost:60391/api/currenttime/all", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+    }
+</script>

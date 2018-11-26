@@ -1,0 +1,48 @@
+﻿main {
+    width: 36%;
+    margin: 30px auto;
+}
+/*Media query for phones*/
+@media screen and (min-width: 320px) {
+    main {
+        margin: 30px auto 0px;
+    }
+}
+
+/*Media query for tablets*/
+@media screen and (min-width: 768px) {
+    main {
+        width:56%;
+        margin: 100px auto 0px;
+    }
+}
+
+/*Media query to clean the transition from laptop to tablet*/
+@media screen and (min-width: 1000px) {
+    main {
+        width: 43%;
+        margin: 100px auto 0px;
+    }
+}
+
+/*Media query for laptops and pc's with small screens*/
+@media screen and (min-width: 1200px) {
+    main {
+        width: 36%;
+        margin: 150px auto 0px;
+    }
+}
+/*Media query for extra large screens*/
+@media screen and (min-width: 1600px) {
+    main {
+        width: 30%;
+        margin: 200px auto 0px;
+    }
+}
+
+div.table-wrapper{
+    width:50%;
+    margin:0px auto;
+    overflow-x:auto;
+}
+
